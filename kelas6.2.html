@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kelas 6.2 Electronic UI</title><style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at top, #0f0f0f, #020202);
+  color: #00f7ff;
+  overflow-x: hidden;
+}
+
+header {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 30px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  text-shadow: 0 0 10px #00f7ff, 0 0 30px #00f7ff;
+  animation: glitch 1s infinite alternate;
+}
+
+@keyframes glitch {
+  0% { text-shadow: 2px 2px #00f7ff; }
+  100% { text-shadow: -2px -2px #00f7ff; }
+}
+
+.container { padding: 20px; }
+
+.card {
+  background: rgba(0,255,255,0.05);
+  border: 1px solid rgba(0,255,255,0.3);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px rgba(0,255,255,0.2);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 30px #00f7ff;
+}
+
+h2 { text-align: center; }
+
+.gallery img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+  display: block;
+  margin: auto;
+  box-shadow: 0 0 20px #00f7ff;
+}
+
+.students {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.student {
+  background: rgba(0,255,255,0.08);
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 13px;
+  border: 1px solid rgba(0,255,255,0.3);
+  transition: 0.2s;
+}
+
+.student:hover {
+  background: #00f7ff;
+  color: black;
+  cursor: pointer;
+}
+
+.quote {
+  text-align: center;
+  font-style: italic;
+  color: #a0faff;
+}
+
+.search {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 15px;
+  outline: none;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+</style></head>
+<body>
+<canvas id="bg"></canvas><!-- musik background --><audio autoplay loop>
+  <source src="https://files.catbox.moe/7l9z7n.mp3" type="audio/mpeg">
+</audio><header>
+WELCOME TO WEBSITE KELAS 6.2
+</header><div class="container"><div class="card">
+<h2>Wali Kelas</h2>
+<p style="text-align:center;">AULIA</p>
+</div><div class="card">
+<h2>Galeri</h2>
+<div class="gallery">
+<img src="https://files.catbox.moe/f5cb9w.jpg">
+</div>
+<p class="quote">"kelas ini bukan cuma tempat belajar, tapi tempat kita bikin kenangan"</p>
+</div><div class="card">
+<h2>Nama Murid</h2>
+<input type="text" class="search" placeholder="cari nama..." onkeyup="searchName(this.value)">
+<div class="students" id="list"><div class="student">ABID (DEV WEB)</div>
+<div class="student">ABDUL</div>
+<div class="student">ADI</div>
+<div class="student">ADIBAH</div>
+<div class="student">AFRIDA</div>
+<div class="student">ARKAN</div>
+<div class="student">AZZAM</div>
+<div class="student">BUNGA</div>
+<div class="student">DEA</div>
+<div class="student">DEVINA</div>
+<div class="student">DZAKA</div>
+<div class="student">FAREL</div>
+<div class="student">FATIN</div>
+<div class="student">HAIKAL</div>
+<div class="student">HAMDA</div>
+<div class="student">JERFY</div>
+<div class="student">KENZI</div>
+<div class="student">KEYLA</div>
+<div class="student">MUTIARA</div>
+<div class="student">NABHAN</div>
+<div class="student">NAFIZAH</div>
+<div class="student">NAUFAL</div>
+<div class="student">NOVA</div>
+<div class="student">NURFAIZAH</div>
+<div class="student">NURIKA</div>
+<div class="student">OXXA</div>
+<div class="student">PRISKA</div>
+<div class="student">PUTRA</div>
+<div class="student">RAFFA</div>
+<div class="student">RAIHAN</div>
+<div class="student">REZKY</div>
+<div class="student">SHAFANA</div>
+<div class="student">SYAMIL</div>
+<div class="student">TSAQIB</div>
+<div class="student">WAFFI</div></div>
+</div><div class="card">
+<h2>Pesan</h2>
+<p class="quote">"dari 6.2 kita belajar arti kebersamaan, bukan cuma nilai"</p>
+<p class="quote">"mungkin nanti kita pisah, tapi cerita kita ga bakal hilang"</p>
+</div><div class="card">
+<h2>Tinggalkan Pesan</h2>
+<input type="text" id="name" class="search" placeholder="nama...">
+<textarea id="message" class="search" placeholder="tulis pesan..." style="height:80px;"></textarea>
+<button onclick="addMessage()" style="width:100%;padding:10px;border:none;border-radius:10px;background:#00f7ff;color:black;font-weight:bold;">Kirim</button>
+<div id="messages" style="margin-top:15px;"></div>
+</div></div><script>
+function searchName(input) {
+  let filter = input.toUpperCase();
+  let items = document.getElementsByClassName("student");
+
+  for (let i = 0; i < items.length; i++) {
+    let txt = items[i].textContent || items[i].innerText;
+    items[i].style.display = txt.toUpperCase().includes(filter) ? "block" : "none";
+  }
+}
+// particle neon background
+const canvas = document.getElementById('bg');
+const ctx = canvas.getContext('2d');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for (let i = 0; i < 80; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2,
+    dx: (Math.random() - 0.5),
+    dy: (Math.random() - 0.5)
+  });
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  particles.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = '#00f7ff';
+    ctx.fill();
+
+    p.x += p.dx;
+    p.y += p.dy;
+
+    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+  });
+
+  requestAnimationFrame(draw);
+}
+
+draw();
+
+// resize fix
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+// guestbook (local storage)
+function loadMessages() {
+  let data = JSON.parse(localStorage.getItem("kelasMessages")) || [];
+  let box = document.getElementById("messages");
+  box.innerHTML = "";
+
+  data.forEach(m => {
+    let div = document.createElement("div");
+    div.style.marginBottom = "10px";
+    div.innerHTML = `<b>${m.name}</b>: ${m.text}`;
+    box.appendChild(div);
+  });
+}
+
+function addMessage() {
+  let name = document.getElementById("name").value;
+  let text = document.getElementById("message").value;
+
+  if (!name || !text) return alert("isi dulu!");
+
+  let data = JSON.parse(localStorage.getItem("kelasMessages")) || [];
+  data.push({ name, text });
+
+  localStorage.setItem("kelasMessages", JSON.stringify(data));
+
+  document.getElementById("name").value = "";
+  document.getElementById("message").value = "";
+
+  loadMessages();
+}
+
+loadMessages();
+
+</script></body>
+</html>
